@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useSignIn } from '@clerk/clerk-react'
 
-import { Form, TextField } from '@redwoodjs/forms'
+import { Form, Label, TextField } from '@redwoodjs/forms'
 import { Link } from '@redwoodjs/router'
 
 import Button from 'src/components/Button/Button'
@@ -11,7 +11,7 @@ import ShowHidePassword from 'src/components/ShowHidePassword/ShowHidePassword'
 import AuthLayout from 'src/layouts/AuthLayout/AuthLayout'
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { signIn, setActive } = useSignIn()
 
@@ -22,7 +22,7 @@ const LoginPage = () => {
         onSubmit={async () => {
           await signIn
             .create({
-              identifier: email,
+              identifier: username,
               password,
             })
             .then((result) => {
@@ -36,13 +36,16 @@ const LoginPage = () => {
               console.log(error)
             })
         }}
-        className="flex flex-col gap-4"
+        className="ml-auto mr-auto flex w-[50vw] flex-col gap-4"
       >
-        <TextField
-          name="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="field">
+          <Label name="username">Username</Label>
+          <TextField
+            name="username"
+            placeholder=" "
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
         <ShowHidePassword
           name="password"
           label="Password"
@@ -56,7 +59,7 @@ const LoginPage = () => {
           SUBMIT
         </Button>
       </Form>
-      <div className="p-4 text-center text-white underline">
+      <div className="p-4 text-center underline dark:text-white">
         <Link to="/signup">Need an Account?</Link>
       </div>
     </AuthLayout>
