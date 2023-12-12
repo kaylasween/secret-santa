@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { useClerk, useSignIn, useUser } from '@clerk/clerk-react'
+import { useUser } from '@clerk/clerk-react'
 
-import { Form, Label, TextField, set } from '@redwoodjs/forms'
+import { Form } from '@redwoodjs/forms'
 import { Link } from '@redwoodjs/router'
 
 import Button from 'src/components/Button/Button'
@@ -30,6 +30,7 @@ const ForgotPasswordPage = () => {
         currentPassword,
       })
       .then((result) => {
+        setComplete(true)
         console.log(result)
       })
       .catch((err) => console.error('error', err.errors[0].longMessage))
@@ -62,8 +63,12 @@ const ForgotPasswordPage = () => {
           </Button>
         </Form>
       )}
+      {complete && (
+        <div className="p-4 text-center dark:text-white">
+          You successfully changed your password.
+        </div>
+      )}
       <div className="p-4 text-center underline dark:text-white">
-        {complete && 'You successfully changed you password'}
         <Link to="/signup">Need an Account?</Link>
       </div>
     </AuthLayout>
